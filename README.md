@@ -12,7 +12,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * 今の所gitとphyonの知識がないと導入が難しい状態です。  
 * 自動インストーラー(install.bat)を作成中  
 
-# settings
+# Settings
 * yukariwhisper.iniを書き換えてください。  
 
 * text_type = 0  
