@@ -4,7 +4,7 @@ AI認識のFaster-WhisperをゆかりねっとやゆかコネNEOで使うため�
 # Features
 * google認識に頼らない音声認識が出来ます。
 * googleより少し認識速度が速いです(RTX3080Ti基準)
-* 1.7GBほどビデオメモリを消費します。
+* 1.7GBほどビデオメモリを消費します。  
 ![yukarisettei.png.](/image/YukariWhisper01.png "settei")  
 
 # Installation
