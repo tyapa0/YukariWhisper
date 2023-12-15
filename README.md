@@ -1,5 +1,5 @@
 # ゆかりねっと用のFaster-Whisper音声認識エンジン
-AI認識のFaster-WhisperをゆかりねっとやゆかコネNEOで使うための音声認識エンジンです。
+AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うための音声認識エンジンです。
 
 # Features
 * google認識に頼らない音声認識が出来ます。
