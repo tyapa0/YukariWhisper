@@ -21,6 +21,7 @@ class inifile_settings:
     phrase_threshold = 0.3
     non_speaking_duration = 0.5
     vad_threshold = 0.1
+    vrc_osc_micmute = False
 
     ng_words = ''
 
@@ -52,7 +53,7 @@ class inifile_settings:
 
         self.whisper_model_size = ini_common.get('whisper_model_size')
 
-        if ini_common.get('debug_out_text')  != 'n':
+        if ini_common.get('debug_out_text') != 'n':
             self.debug_out_text = True
 
         w_device = ini_common.get('whisper_device')
@@ -66,6 +67,9 @@ class inifile_settings:
             self.compute_type = 'float16'
 
         self.using_recognizer = ini_common.get('using_recognizer')
+
+        if ini_common.get('vrc_osc_micmute') != 'n':
+            self.vrc_osc_micmute = True
 
     #RECOGNIZERセクションの解析
     def parse_recognizer(self):

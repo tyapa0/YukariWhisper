@@ -4,7 +4,6 @@ import onnxruntime
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-
 class Vad:
     def __init__(self, threshold: float = 0.1):
         model_path = os.path.join(current_dir, "assets", "silero_vad.onnx")

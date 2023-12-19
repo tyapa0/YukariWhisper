@@ -10,7 +10,9 @@ import time
 import settings
 import wsocket
 import vad
+import oscserver
 
+#音声認識エンジン本体
 class myrecognizer:
     model_wrapper: WhisperModelWrapper
     recognizers: sr.Recognizer
@@ -45,12 +47,24 @@ class myrecognizer:
         self.wsocket = wsocket.wsocket('ws://localhost:', self.ini_file.local_port, self.ini_file.yukari_connect_neo)
         # ノイズフィルタの設定
         self.vad     = vad.Vad(self.ini_file.vad_threshold)
-
+        # voiceキーの取得用 OSC server
+        self.osc     = oscserver.oscserver()
+        
     def is_automatic_recognition(self):
         return self.ini_file.automatic_recognition
 
     def get_recognition_device(self):
         return self.ini_file.recognition_device
+
+    #ミュート制御
+    def mute_control(self, mystream):
+        if self.osc.Mute and self.ini_file.vrc_osc_micmute:
+            if mystream.is_stopped() == False:
+                mystream.stop_stream()
+            while self.osc.Mute:
+                time.sleep(0.001)
+            if mystream.is_stopped() == True:
+                mystream.stop_stream()  
 
     #音声認識実行スレッド
     def recognize_worker(self):
@@ -109,10 +123,13 @@ class myrecognizer:
 
         print("音声認識開始:")
         self.wsocket.open()
+        #if self.ini_file.vrc_osc_micmute:
+        #    self.osc.start()
         with sr.Microphone(index) as source:
             try:
                 while True:  # repeatedly listen for phrases and put the resulting audio on the audio processing job queue
                     self.audio_queue.put(self.recognizers.listen(source))
+        #            self.mute_control(source.stream.pyaudio_stream)
             except KeyboardInterrupt:  # allow Ctrl + C to shut down the program
                 pass
 
