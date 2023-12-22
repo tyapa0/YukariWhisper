@@ -61,10 +61,12 @@ class myrecognizer:
         if self.osc.Mute and self.ini_file.vrc_osc_micmute:
             if mystream.is_stopped() == False:
                 mystream.stop_stream()
+                #print("stop_stream")
             while self.osc.Mute:
                 time.sleep(0.001)
             if mystream.is_stopped() == True:
-                mystream.stop_stream()  
+                mystream.start_stream()  
+                #print("start_stream")
 
     #音声認識実行スレッド
     def recognize_worker(self):
@@ -107,10 +109,10 @@ class myrecognizer:
 
             except sr.UnknownValueError:
                 #print("Google Speech Recognition could not understand audio")
-                None
+                pass
             except sr.RequestError as e:
                 #print("Could not request results from Google Speech Recognition service; {0}".format(e))
-                None
+                pass
 
             self.audio_queue.task_done()  # mark the audio processing job as completed in the queue
 
@@ -120,16 +122,27 @@ class myrecognizer:
         recognize_thread = Thread(target=self.recognize_worker)
         recognize_thread.daemon = True
         recognize_thread.start()
-
         print("音声認識開始:")
+
+        # String transfer communication with YukariNet
         self.wsocket.open()
-        #if self.ini_file.vrc_osc_micmute:
-        #    self.osc.start()
+
+        #M ic mute sync with VRC
+        phrase_time_limit = None
+        if self.ini_file.vrc_osc_micmute:
+            self.osc.start()
+            phrase_time_limit = 1
+
+        # speech_recognition start
         with sr.Microphone(index) as source:
             try:
                 while True:  # repeatedly listen for phrases and put the resulting audio on the audio processing job queue
-                    self.audio_queue.put(self.recognizers.listen(source))
-        #            self.mute_control(source.stream.pyaudio_stream)
+                    try:
+                        self.audio_queue.put(self.recognizers.listen(source, phrase_time_limit))
+                    except sr.WaitTimeoutError:
+                        pass
+                    self.mute_control(source.stream.pyaudio_stream)
+
             except KeyboardInterrupt:  # allow Ctrl + C to shut down the program
                 pass
 

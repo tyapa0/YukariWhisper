@@ -1,6 +1,7 @@
 from threading import Thread
 import websocket
 
+#String transfer communication with YukariNet
 class wsocket:
     def __init__(self, host, port, connect_neo):
         websocket.enableTrace(False)
