@@ -1,3 +1,7 @@
+# Utterance interval detection using silero_vad.
+# This origilal source is
+# https://github.com/reriiasu/speech-to-text/blob/main/speech_to_text/vad.py
+
 import numpy as np
 import os
 import onnxruntime
@@ -6,7 +10,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Vad:
     def __init__(self, threshold: float = 0.1):
-        model_path = os.path.join(current_dir, "assets", "silero_vad.onnx")
+        model_path = os.path.join(current_dir, "../assets", "silero_vad.onnx")
 
         options = onnxruntime.SessionOptions()
         options.log_severity_level = 4

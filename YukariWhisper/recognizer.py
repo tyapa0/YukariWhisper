@@ -22,7 +22,7 @@ class myrecognizer:
 
     def __init__(self):
         # 設定ファイルをロード
-        self.ini_file      = settings.inifile_settings('yukariwhisper.ini', 'UTF-8')
+        self.ini_file      = settings.inifile_settings('../yukariwhisper.ini', 'UTF-8')
         self.recognizers   = sr.Recognizer()
         self.audio_queue   = Queue()
 
@@ -65,7 +65,8 @@ class myrecognizer:
             while self.osc.Mute:
                 time.sleep(0.001)
             if mystream.is_stopped() == True:
-                mystream.start_stream()  
+                mystream.start_stream()
+                self.recognizers.energy_threshold = self.ini_file.energy_threshold #test code
                 #print("start_stream")
 
     #音声認識実行スレッド

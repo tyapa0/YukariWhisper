@@ -16,8 +16,12 @@ class wsocket:
         ws_thread = Thread(target=self.websocket_worker)
         ws_thread.daemon = True
         ws_thread.start()
-
+    
     def send(self, text):
         if self.yukari_connect_neo == False:
             text = '0:' + text
-        self.ws.send(text)
+        try:
+            self.ws.send(text)
+        except:
+            print('ゆかりねっと等へ送信ができません。一旦終了して起動し直してください')
+            
