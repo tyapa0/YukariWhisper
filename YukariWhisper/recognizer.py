@@ -66,7 +66,6 @@ class myrecognizer:
                 time.sleep(0.001)
             if mystream.is_stopped() == True:
                 mystream.start_stream()
-                self.recognizers.energy_threshold = self.ini_file.energy_threshold #test code
                 #print("start_stream")
 
     #音声認識実行スレッド
