@@ -5,14 +5,17 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * google認識に頼らない音声認識が出来ます。
 * googleより少し認識速度が速いです(RTX3080Ti基準)
 * 1.7GBほどビデオメモリを消費します。  
-![yukarisettei.png.](/image/YukariWhisper01.png "settei")  
+![yukarisettei01.png.](/image/YukariWhisper01.png "settei01")  
 
 # Installation
 * 実行にはpython のインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows
 
 * 初めてのかた
   *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.1.zip
-  * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。
+  * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。  
+     ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
+   ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
+     ![yukarisettei04.png.](/image/YukariWhisper01.png "settei04") 
   * フォルダ内にある自動インストーラー(install.bat)を実行します。
   * run.batを実行します。
 * venv等 設定済みの方  
@@ -28,9 +31,9 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 
 * local_port = 50000  
 ゆかりねっとの設定にある。「音声認識エンジン」の「認識結果待ち受けポート」と番号を同じにしてください。  
-![yukarisettei.png.](/image/YukariWhisper02.png "settei")  
+![yukarisettei02.png.](/image/YukariWhisper02.png "settei02")  
 ゆかコネNEOの場合は、「︙」三点アイコンの動作状況にあるCommunicationPortのWebSocket(NEO-innerAPI):  の値と同じにしてください  
-![yukarisettei.png.](/image/YukariWhisper03.png "settei")  
+![yukarisettei03.png.](/image/YukariWhisper03.png "settei03")  
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
