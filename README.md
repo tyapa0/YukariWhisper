@@ -15,7 +15,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
-     ![yukarisettei04.png.](/image/YukariWhisper01.png "settei04") 
+     ![kyoka.png.](/image/kyoka.png "kyoka") 
   * フォルダ内にある自動インストーラー(install.bat)を実行します。
   * run.batを実行します。
 * venv等 設定済みの方  
