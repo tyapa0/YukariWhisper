@@ -11,9 +11,9 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * 実行にはpython のインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows
 
 * 初めてのかた
-  * YukariWhisper.zipをDownLoadします。 https://github.com/tyapa0/YukariWhisper/releases
-  * YukariWhisper.zipを任意のフォルダへ解凍します。
-  * 自動インストーラー(install.bat)を実行します。
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.1.zip
+  * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。
+  * フォルダ内にある自動インストーラー(install.bat)を実行します。
   * run.batを実行します。
 * venv等 設定済みの方  
   * gitで本プロジェクトをcloneしてmain.pyを実行してください
