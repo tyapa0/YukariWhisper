@@ -11,13 +11,16 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * 実行にはpython のインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows
 
 * 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.1.zip
-  * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。  
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.2.zip
+  * YukariWhisper-0.0.2.zipを任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
-     ![yukarisettei04.png.](/image/YukariWhisper01.png "settei04") 
+     ![kyoka.png.](/image/kyoka.png "kyoka") 
   * フォルダ内にある自動インストーラー(install.bat)を実行します。
+  * 数十分かかります。「続行するには何かキーを押してください . . .」と出れば終了です。
   * run.batを実行します。
+  * 初回のみダウンロードが始まります。しばらくするとマイク選択が出ます。
+  * マイクの番号を入力してEnterキーを押してください。
 * venv等 設定済みの方  
   * gitで本プロジェクトをcloneしてmain.pyを実行してください
 
