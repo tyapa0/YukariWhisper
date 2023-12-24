@@ -11,8 +11,8 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * 実行にはpython のインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows
 
 * 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.2.zip
-  * YukariWhisper-0.0.2.zipを任意のフォルダへ解凍します。  
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.1.zip
+  * YukariWhisper-0.0.1.zipを任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
      ![kyoka.png.](/image/kyoka.png "kyoka") 
@@ -37,6 +37,12 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 ![yukarisettei02.png.](/image/YukariWhisper02.png "settei02")  
 ゆかコネNEOの場合は、「︙」三点アイコンの動作状況にあるCommunicationPortのWebSocket(NEO-innerAPI):  の値と同じにしてください  
 ![yukarisettei03.png.](/image/YukariWhisper03.png "settei03")  
+
+* その他オプションはyukariwhisper.ini内を見てください。  
+  音の切れ目を認識にしくいときは、PCのファンノイズを拾っている可能性があります。  
+  従来の半分程度の音量でも認識するので、入力を半分に以下にするなど試してみてください。  
+  iniファイルはQuest2でのVirtualDesktop基準で設定されています。マイクの推奨値は40%です。  
+![yukarisettei02.png.](/image/YukariWhisper02.png "settei02")  
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
