@@ -42,7 +42,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   音の切れ目を認識にしくいときは、PCのファンノイズを拾っている可能性があります。  
   従来の半分程度の音量でも認識するので、入力を半分に以下にするなど試してみてください。  
   iniファイルはQuest2でのVirtualDesktop基準で設定されています。マイクの推奨値は40%です。  
-![yukarisettei02.png.](/image/YukariWhisper02.png "settei02")  
+![yukarisettei04.png.](/image/YukariWhisper04.png "settei04")  
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
