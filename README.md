@@ -4,7 +4,8 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 # Features
 * google認識に頼らない音声認識が出来ます。
 * googleより少し認識速度が速いです(RTX3080Ti基準)
-* 1.7GBほどビデオメモリを消費します。  
+* 1.7GBほどビデオメモリを消費します。
+* nVIDIA系GPU(1000番以降)で動作します。  
 ![yukarisettei01.png.](/image/YukariWhisper01.png "settei01")  
 
 # Installation
@@ -25,8 +26,9 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   * run.batを実行します。
   * 初回のみダウンロードが始まります。しばらくするとマイク選択が出ます。
   * マイクの番号を入力してEnterキーを押してください。
-* venv等 設定済みの方  
+* venv等 設定済みの方(分かる人用)  
   * gitで本プロジェクトをcloneしてmain.pyを実行してください
+  * AMD環境の方はLinux環境or WSL上で手動で構築できる人なら動かせます  
 
 # Settings
 * yukariwhisper.iniを書き換えてください。  
