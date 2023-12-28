@@ -11,7 +11,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 # Installation
 * 実行にはpythonのインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows  
   python3.9以上で動作します。推奨は [3.11.7です](https://www.python.org/downloads/release/python-3117/)  
-  python3.12では動きません！！(20023/12/28現在)  
+  **python3.12では動きません！！**(20023/12/28現在)  
   pythonのパスを追加にチェックを入れてインストールしてください。  
   ![YukariWhisper05.png.](/image/YukariWhisper05.png "settei05")
 
