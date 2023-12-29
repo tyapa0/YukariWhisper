@@ -65,6 +65,8 @@ class inifile_settings:
             self.compute_type = 'float32'
         elif w_device == 'cuda_16':
             self.compute_type = 'float16'
+        elif w_device == 'cuda_8_1':
+            self.compute_type = 'int8_float16'
 
         self.using_recognizer = ini_common.get('using_recognizer')
 
