@@ -105,10 +105,10 @@ class myrecognizer:
                             if normalized_text in self.ini_file.ng_words:
                                 continue
                             if self.ini_file.debug_out_text:
-                                print(f"whisper[{time.time()-start_t}]" + segment.text)
+                                print(f"whisper[{time.time()-start_t}]" + normalized_text)
 
                             # send text to websocket 
-                            self.wsocket.send(segment.text)
+                            self.wsocket.send(normalized_text)
 
             except sr.UnknownValueError:
                 #print("Google Speech Recognition could not understand audio")
