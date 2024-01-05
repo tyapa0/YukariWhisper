@@ -32,7 +32,8 @@ class myrecognizer:
             self.model_wrapper =  WhisperModelWrapper(
                                 self.ini_file.whisper_model_size,
                                 self.ini_file.whisper_device,
-                                self.ini_file.compute_type
+                                self.ini_file.compute_type,
+                                self.ini_file.gpu_device_index
                                 )
 
         #音声認識器のパラメータ設定
@@ -43,6 +44,7 @@ class myrecognizer:
         self.recognizers.pause_threshold  = self.ini_file.pause_threshold
         self.recognizers.phrase_threshold  = self.ini_file.phrase_threshold
         self.recognizers.non_speaking_duration  = self.ini_file.non_speaking_duration
+        self.recognizers.energy_threshold_Low  = self.ini_file.energy_threshold_Low
 
         # websocket通信の設定
         self.wsocket = wsocket.wsocket('ws://localhost:', self.ini_file.local_port, self.ini_file.yukari_connect_neo)
@@ -68,6 +70,12 @@ class myrecognizer:
             if mystream.is_stopped() == True:
                 mystream.start_stream()
                 #print("start_stream")
+
+    # energy_thresholdチェック
+    def energy_threshold_chk(self):
+        if self.recognizers.energy_threshold < self.recognizers.energy_threshold_Low:
+            #print(f"energy_thresholdLow: {self.recognizers.energy_threshold}")
+            self.recognizers.energy_threshold = self.recognizers.energy_threshold_Low
 
     #音声認識実行スレッド
     def recognize_worker(self):
@@ -145,6 +153,7 @@ class myrecognizer:
                     except sr.WaitTimeoutError:
                         pass
                     self.mute_control(source.stream.pyaudio_stream)
+                    self.energy_threshold_chk()
 
             except KeyboardInterrupt:  # allow Ctrl + C to shut down the program
                 pass

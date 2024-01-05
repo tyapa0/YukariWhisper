@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
 from device_list import get_devicxe_list
+from gpu_list import get_gpu_list
 import recognizer
 
 if __name__ == "__main__":
 
     print("初期化中...")
+
+    #GPUリストの表示
+    get_gpu_list()
 
     #音声認識モジュールの初期化
     rec = recognizer.myrecognizer()

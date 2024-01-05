@@ -14,9 +14,11 @@ class inifile_settings:
     compute_type = "int8_bfloat16"
     using_recognizer = "whispr"
     debug_out_text = False
+    gpu_device_index = 0
 
     pause_threshold = 0.8
     energy_threshold = 300
+    energy_threshold_Low = 100
     dynamic_energy_threshold = True
     dynamic_energy_adjustment_damping = 0.15
     dynamic_energy_ratio = 1.5
@@ -87,6 +89,7 @@ class inifile_settings:
         self.phrase_threshold = ini_recognizer.getfloat('phrase_threshold')
         self.non_speaking_duration = ini_recognizer.getfloat('non_speaking_duration')
         self.vad_threshold = ini_recognizer.getfloat('vad_threshold')
+        self.energy_threshold_Low = ini_recognizer.getfloat('energy_threshold_Low')
 
     #NGWORDSセクションの解析
     def parse_ngwords(self, chr_code):

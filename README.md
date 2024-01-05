@@ -15,9 +15,16 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   pythonのパスを追加にチェックを入れてインストールしてください。  
   ![YukariWhisper05.png.](/image/YukariWhisper05.png "settei05")
 
+### v0.0.1以降バージョンアップの方
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.2.zip
+  * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
+  *  `ngwords.txt`以外のファイルを既にインストール済みのフォルダへ上書きしてください
+  * `yukariwhisper.ini`は追加項目があるので、上書きした後で数値を設定し直してください。
+  * `run.bat`を実行します。
+
 ### 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.1.zip
-  * `YukariWhisper-0.0.1.zip`を任意のフォルダへ解凍します。  
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.2.zip
+  * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
      ![kyoka.png.](/image/kyoka.png "kyoka") 
