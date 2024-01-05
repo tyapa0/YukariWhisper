@@ -10,6 +10,6 @@ def get_gpu_list():
 
         for i in range(device_count):
             print(
-                f"{i} : {torch.cuda.get_device_name()}, : {torch.cuda.get_device_capability()}"
+                f"{i} : {torch.cuda.get_device_name(i)}, : {torch.cuda.get_device_capability(i)}"
             )
         print(" ")
