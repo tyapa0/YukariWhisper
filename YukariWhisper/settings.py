@@ -1,4 +1,6 @@
 import configparser
+import unicodedata
+
 
 class inifile_settings:
 
@@ -91,5 +93,5 @@ class inifile_settings:
         ini_ngwords = self.inifile['NGWORDS']
         filename = ini_ngwords.get('ng_words_filename')
         with open('../'+filename, mode='r', encoding=chr_code) as f:
-            self.ng_words = [word.strip() for word in f if word != '\n']
+            self.ng_words = [unicodedata.normalize('NFC',word.strip()) for word in f if word != '\n']
         self.ng_words

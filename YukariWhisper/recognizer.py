@@ -11,6 +11,7 @@ import settings
 import wsocket
 import vad
 import oscserver
+import unicodedata
 
 #音声認識エンジン本体
 class myrecognizer:
@@ -99,7 +100,9 @@ class myrecognizer:
                         #whisperで認識
                         segments = self.model_wrapper.transcribe(speech_array)
                         for segment in segments:
-                            if segment.text in self.ini_file.ng_words:
+                            # uniocode Normalization
+                            normalized_text = unicodedata.normalize('NFC', segment.text)
+                            if normalized_text in self.ini_file.ng_words:
                                 continue
                             if self.ini_file.debug_out_text:
                                 print(f"whisper[{time.time()-start_t}]" + segment.text)
