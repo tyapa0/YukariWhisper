@@ -12,4 +12,4 @@ def get_gpu_list():
             print(
                 f"{i} : {torch.cuda.get_device_name()}, : {torch.cuda.get_device_capability()}"
             )
-
+        print(" ")
