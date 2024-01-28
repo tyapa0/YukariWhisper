@@ -1,6 +1,6 @@
 import configparser
 import unicodedata
-
+import sys
 
 class inifile_settings:
 
@@ -45,6 +45,10 @@ class inifile_settings:
         if ini_common.get('text_type') == '1':
             self.yukari_connect_neo = True
         self.local_port = ini_common.get('local_port')
+
+        #ゆかりねっとコネクターNEOから動的ポート番号を渡されたら反映
+        if(len(sys.argv) > 1 and str.isnumeric(sys.argv[1])):
+            self.local_port = sys.argv[1]
 
         if self.yukari_connect_neo:
             print(f"ゆかコネNEOを起動し、CommunicationPortのWebSocketの値を確認してください:[{self.local_port}]")
