@@ -141,7 +141,7 @@ class myrecognizer:
         #M ic mute sync with VRC
         phrase_time_limit = None
         if self.ini_file.vrc_osc_micmute:
-            self.osc.start()
+            self.osc.start(self.ini_file.vrc_osc_adsress, self.ini_file.vrc_osc_port)
             phrase_time_limit = 1
 
         # speech_recognition start

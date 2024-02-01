@@ -11,7 +11,7 @@ class inifile_settings:
     recognition_device = 0
     whisper_model_size = "large-v3"
     whisper_device = "cuda"
-    compute_type = "int8_bfloat16"
+    compute_type = "int8_float16"
     using_recognizer = "whispr"
     debug_out_text = False
     gpu_device_index = 0
@@ -26,6 +26,8 @@ class inifile_settings:
     non_speaking_duration = 0.5
     vad_threshold = 0.1
     vrc_osc_micmute = False
+    vrc_osc_adsress = "127.0.0.1"
+    vrc_osc_port = 9001
 
     ng_words = ''
 
@@ -75,11 +77,16 @@ class inifile_settings:
             self.compute_type = 'float16'
         elif w_device == 'cuda_8_1':
             self.compute_type = 'int8_float16'
+        elif w_device == 'cuda_8':
+            self.compute_type = 'int8_bfloat16'
 
         self.using_recognizer = ini_common.get('using_recognizer')
 
         if ini_common.get('vrc_osc_micmute') != 'n':
             self.vrc_osc_micmute = True
+
+        self.vrc_osc_adsress = ini_common.get('vrc_osc_adsress')
+        self.vrc_osc_port = ini_common.getint('vrc_osc_port')
 
     #RECOGNIZERセクションの解析
     def parse_recognizer(self):

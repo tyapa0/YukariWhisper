@@ -14,13 +14,13 @@ class oscserver:
     def print_volume_handler(self, unused_addr, args, Mute):
         self.Mute = Mute
 
-    def worker(self):
+    def worker(self, adress, port):
         dispatcher = Dispatcher()
         dispatcher.map("/avatar/parameters/MuteSelf", self.print_volume_handler, "Volume")
-        server = osc_server.ThreadingOSCUDPServer( ("127.0.0.1", 9001), dispatcher)
+        server = osc_server.ThreadingOSCUDPServer( (adress, port), dispatcher)
         server.serve_forever()
 
-    def start(self):
-        osc_thread = Thread(target=self.worker)
+    def start(self, adress, port):
+        osc_thread = Thread(target=self.worker,args=(adress,port))
         osc_thread.daemon = True
         osc_thread.start()
