@@ -1,6 +1,7 @@
 import configparser
 import unicodedata
 import sys
+import torch
 
 class inifile_settings:
 
@@ -40,6 +41,13 @@ class inifile_settings:
         self.parse_recognizer()
         self.parse_ngwords(chr_code)
 
+    #whisper compute_typeの設定
+    #Compute_Capability:7以上 int8_float16(default), 6:float16, 5以下動作不能
+    def set_whisper_device(self):
+        Compute_Capability = int(torch.cuda.get_device_capability(self.gpu_device_index)[0])
+        if(7 > Compute_Capability):
+            compute_type = "float16"
+
     #COMMONセクションの解析
     def parse_common(self):
         ini_common = self.inifile['COMMON']
@@ -66,20 +74,6 @@ class inifile_settings:
         if ini_common.get('debug_out_text') != 'n':
             self.debug_out_text = True
 
-        w_device = ini_common.get('whisper_device')
-        if w_device == 'cpu_8':
-            self.whisper_device = 'cpu'
-            self.compute_type = 'int8'
-        elif w_device == 'cpu_32':
-            self.whisper_device = 'cpu'
-            self.compute_type = 'float32'
-        elif w_device == 'cuda_16':
-            self.compute_type = 'float16'
-        elif w_device == 'cuda_8_1':
-            self.compute_type = 'int8_float16'
-        elif w_device == 'cuda_8':
-            self.compute_type = 'int8_bfloat16'
-
         self.using_recognizer = ini_common.get('using_recognizer')
 
         if ini_common.get('vrc_osc_micmute') != 'n':
@@ -87,6 +81,8 @@ class inifile_settings:
 
         self.vrc_osc_adsress = ini_common.get('vrc_osc_adsress')
         self.vrc_osc_port = ini_common.getint('vrc_osc_port')
+        self.gpu_device_index = ini_common.getint('gpu_device_index')
+        self.set_whisper_device()
 
     #RECOGNIZERセクションの解析
     def parse_recognizer(self):
