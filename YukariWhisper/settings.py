@@ -42,11 +42,16 @@ class inifile_settings:
         self.parse_ngwords(chr_code)
 
     #whisper compute_typeの設定
-    #Compute_Capability:7以上 int8_float16(default), 6:float16, 5以下動作不能
+    #Compute_Capability from :https://opennmt.net/CTranslate2/quantization.html#implicit-type-conversion-on-load
     def set_whisper_device(self):
-        Compute_Capability = int(torch.cuda.get_device_capability(self.gpu_device_index)[0])
-        if(7 > Compute_Capability):
-            compute_type = "float16"
+        Compute_Capability_1 = int(torch.cuda.get_device_capability(self.gpu_device_index)[0])
+        Compute_Capability_2 = int(torch.cuda.get_device_capability(self.gpu_device_index)[1])
+        if(8 <= Compute_Capability_1):
+            self.compute_type = "int8_bfloat16"
+        elif(6 > Compute_Capability_1):
+            self.compute_type = "float32"
+            if(1 == Compute_Capability_2):
+                self.compute_type = "int8_float32"
 
     #COMMONセクションの解析
     def parse_common(self):
