@@ -77,6 +77,14 @@ class myrecognizer:
             #print(f"energy_thresholdLow: {self.recognizers.energy_threshold}")
             self.recognizers.energy_threshold = self.recognizers.energy_threshold_Low
 
+    # ng_wordsが含まれているか判定
+    def check_ng_words(self, text):
+        for check_in_text in self.ini_file.ng_words:
+            if check_in_text in text:
+                #print("NGW:" + text)
+                return True
+        return False
+
     #音声認識実行スレッド
     def recognize_worker(self):
         # this runs in a background thread
@@ -95,7 +103,7 @@ class myrecognizer:
                     #googleで認識
                     strGoogleData = self.recognizers.recognize_google(audio, language='ja-JP')
                     if self.ini_file.debug_out_text:
-                        print(f"google [{time.time()-start_t2}]" + strGoogleData)
+                        print(f"google [{(time.time()-start_t2):.4f}]({len(segment.text)})" + strGoogleData)
                     # send text to websocket 
                     self.wsocket.send(strGoogleData)
 
@@ -110,10 +118,10 @@ class myrecognizer:
                         for segment in segments:
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
-                            if normalized_text in self.ini_file.ng_words:
-                                continue
+                            if self.check_ng_words(normalized_text):
+                               continue
                             if self.ini_file.debug_out_text:
-                                print(f"whisper[{time.time()-start_t}]" + normalized_text)
+                                print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
 
                             # send text to websocket 
                             self.wsocket.send(normalized_text)

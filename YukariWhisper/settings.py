@@ -48,7 +48,7 @@ class inifile_settings:
         Compute_Capability_2 = int(torch.cuda.get_device_capability(self.gpu_device_index)[1])
         if(8 <= Compute_Capability_1):
             self.compute_type = "int8_bfloat16"
-        elif(6 > Compute_Capability_1):
+        elif(6 >= Compute_Capability_1):
             self.compute_type = "float32"
             if(1 == Compute_Capability_2):
                 self.compute_type = "int8_float32"
