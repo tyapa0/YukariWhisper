@@ -15,10 +15,13 @@ class oscserver:
         self.Mute = Mute
 
     def worker(self, adress, port):
-        dispatcher = Dispatcher()
-        dispatcher.map("/avatar/parameters/MuteSelf", self.print_volume_handler, "Volume")
-        server = osc_server.ThreadingOSCUDPServer( (adress, port), dispatcher)
-        server.serve_forever()
+        try:
+            dispatcher = Dispatcher()
+            dispatcher.map("/avatar/parameters/MuteSelf", self.print_volume_handler, "Volume")
+            server = osc_server.ThreadingOSCUDPServer( (adress, port), dispatcher)
+            server.serve_forever()
+        except:
+            print('VRC用のOSCポートが見つけられません vrc_osc_micmute=yにするか vrc_osc_portを確認してください')
 
     def start(self, adress, port):
         osc_thread = Thread(target=self.worker,args=(adress,port))
