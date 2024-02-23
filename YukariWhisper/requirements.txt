@@ -3,5 +3,6 @@ SpeechRecognition==3.10.1
 onnxruntime==1.16.3
 onnxruntime-gpu==1.16.3
 websocket-client==1.7.0
-faster-whisper==0.10.0
+ctranslate2==3.24.0 
+faster-whisper==0.10.1
 python-osc==1.8.3
