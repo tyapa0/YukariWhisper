@@ -28,6 +28,7 @@ class myrecognizer:
         self.audio_queue   = Queue()
 
         # faster-Whisperのモデルロード
+        print("初期化中...")
         if self.ini_file.using_recognizer != 'google':
             self.model_wrapper =  WhisperModelWrapper(
                                 self.ini_file.whisper_model_size,

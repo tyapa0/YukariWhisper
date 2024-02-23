@@ -6,8 +6,6 @@ import recognizer
 
 if __name__ == "__main__":
 
-    print("初期化中...")
-
     #GPUリストの表示
     get_gpu_list()
 

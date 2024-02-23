@@ -5,16 +5,16 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * google認識に頼らない音声認識が出来ます。
 * 1.7GBほどビデオメモリを消費します。
 * googleより少し認識速度が速いです(RTX3080Ti基準)  
-![YukariWhisper01.png.](/image/YukariWhisper01.png "YukariWhisper01")  
+![YukariWhisper01.png.](./image/YukariWhisper01.png "YukariWhisper01")  
 * nVIDIA系GPU(1000番以降)で動作します。  
-![YukariWhisper07.png.](/image/YukariWhisper07.png "YukariWhisper07")  
+![YukariWhisper07.png.](./image/YukariWhisper07.png "YukariWhisper07")  
 
 # Installation
 * 実行にはpythonのインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows  
   python3.9以上で動作します。推奨は [`3.11.7です`](https://www.python.org/downloads/release/python-3117/)  
   `python3.12では動きません！！`(20023/12/28現在)  
   pythonのパスを追加にチェックを入れてインストールしてください。  
-  ![YukariWhisper05.png.](/image/YukariWhisper05.png "YukariWhisper05")
+  ![YukariWhisper05.png.](./image/YukariWhisper05.png "YukariWhisper05")
 
 ### v0.0.1以降バージョンアップの方
   * [変更点はこちら](https://github.com/tyapa0/YukariWhisper/releases)
@@ -29,7 +29,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
-     ![kyoka.png.](/image/kyoka.png "kyoka") 
+     ![kyoka.png.](./image/kyoka.png "kyoka") 
   * フォルダ内にある自動インストーラー`setup.bat`を実行します。
   * 数十分かかります。「続行するには何かキーを押してください . . .」と出れば終了です。
   * `run.bat`を実行します。
@@ -50,15 +50,15 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 
 * **local_port = 50000**  
 ゆかりねっとの設定にある。「音声認識エンジン」の「認識結果待ち受けポート」と番号を同じにしてください。  
-![YukariWhisper02.png.](/image/YukariWhisper02.png "YukariWhisper02")  
+![YukariWhisper02.png.](./image/YukariWhisper02.png "YukariWhisper02")  
 ゆかコネNEOの場合は、「︙」三点アイコンの動作状況にあるCommunicationPortのWebSocket(NEO-innerAPI):  の値と同じにしてください  
-![YukariWhisper03.png.](/image/YukariWhisper03.png "YukariWhisper03")  
+![YukariWhisper03.png.](./image/YukariWhisper03.png "YukariWhisper03")  
 
 * その他オプションはyukariwhisper.ini内を見てください。  
   音の切れ目を認識にしくいときは、PCのファンノイズを拾っている可能性があります。  
   従来の半分程度の音量でも認識するので、入力を半分に以下にするなど試してみてください。  
   iniファイルはQuest2でのVirtualDesktop基準で設定されています。マイクの推奨値は40%です。  
-![YukariWhisper04.png.](/image/YukariWhisper04.png "YukariWhisper04")  
+![YukariWhisper04.png.](./image/YukariWhisper04.png "YukariWhisper04")  
 
 
 # Q&A
@@ -71,7 +71,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   1. `yukariwhisper.ini`の vad_threshold=0.5など、少し大きくしてみてください。
   1. `ngwords.txt`に入れたキーワードを含む言葉は無視されます。5～8文字程度入れてみてください。  
   NVIDIA Broadcastアプリをインストールした後、マイク選択はNVIDIA Broadcastを選択してください。  
-  ![YukariWhisper06.png.](/image/YukariWhisper06.png "YukariWhisper06")  
+  ![YukariWhisper06.png.](./image/YukariWhisper06.png "YukariWhisper06")  
   vad_thresholdは=0.1等少なめでも問題なくなります。  
   ダイナミックマイクを使っている方は dynamic_energy_ratio=2.0など、少し少な目がちょうどいい値になります。  
 
