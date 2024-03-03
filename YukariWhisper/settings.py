@@ -20,6 +20,7 @@ class inifile_settings:
     pause_threshold = 0.8
     energy_threshold = 300
     energy_threshold_Low = 100
+    recognition_timeout = 5.0
     dynamic_energy_threshold = True
     dynamic_energy_adjustment_damping = 0.15
     dynamic_energy_ratio = 1.5
@@ -102,6 +103,7 @@ class inifile_settings:
         self.non_speaking_duration = ini_recognizer.getfloat('non_speaking_duration')
         self.vad_threshold = ini_recognizer.getfloat('vad_threshold')
         self.energy_threshold_Low = ini_recognizer.getfloat('energy_threshold_Low')
+        self.recognition_timeout = ini_recognizer.getfloat('recognition_timeout')
 
     #NGWORDSセクションの解析
     def parse_ngwords(self, chr_code):

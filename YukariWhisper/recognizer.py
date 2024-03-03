@@ -46,6 +46,7 @@ class myrecognizer:
         self.recognizers.phrase_threshold  = self.ini_file.phrase_threshold
         self.recognizers.non_speaking_duration  = self.ini_file.non_speaking_duration
         self.recognizers.energy_threshold_Low  = self.ini_file.energy_threshold_Low
+        self.recognizers.recognition_timeout = self.ini_file.recognition_timeout
 
         # websocket通信の設定
         self.wsocket = wsocket.wsocket('ws://localhost:', self.ini_file.local_port, self.ini_file.yukari_connect_neo)
@@ -116,6 +117,9 @@ class myrecognizer:
                     if self.vad.is_speech(speech_array):
                         #whisperで認識
                         segments = self.model_wrapper.transcribe(speech_array)
+                        # If the time takes longer than the specified seconds, discard the result. Determine before executing the loop.
+                        if round((time.time()-start_t), 1) >= self.recognizers.recognition_timeout:
+                            continue
                         for segment in segments:
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
