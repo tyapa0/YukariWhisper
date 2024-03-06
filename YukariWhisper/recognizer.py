@@ -121,15 +121,18 @@ class myrecognizer:
                         print(f"Time3[{(time.time()-start_t):.4f}]")
                         for segment in segments:
                             # uniocode Normalization
-                            normalized_text = unicodedata.normalize('NFC', segment.text)
                             print(f"Time4[{(time.time()-start_t):.4f}]")
+                            normalized_text = unicodedata.normalize('NFC', segment.text)
+                            print(f"Time5[{(time.time()-start_t):.4f}]")
                             if self.check_ng_words(normalized_text):
                                continue
-                            print(f"Time5[{(time.time()-start_t):.4f}]")
-                        if self.ini_file.debug_out_text:
-                            print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
-                            # send text to websocket 
-                            self.wsocket.send(normalized_text)
+                            print(f"Time6[{(time.time()-start_t):.4f}]")
+                            if self.ini_file.debug_out_text:
+                                print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
+                                print(f"Time7[{(time.time()-start_t):.4f}]")
+                                # send text to websocket 
+                                self.wsocket.send(normalized_text)
+                                print(f"Time8[{(time.time()-start_t):.4f}]")
 
             except sr.UnknownValueError:
                 #print("Google Speech Recognition could not understand audio")
