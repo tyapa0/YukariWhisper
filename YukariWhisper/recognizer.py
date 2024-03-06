@@ -112,18 +112,22 @@ class myrecognizer:
                     start_t = time.time() 
                     #audioデーターのフォーマットをwhisper用の16k 16bitに変換する
                     frame_bytes = audio.get_raw_data(convert_rate=16000)
+                    print(f"Time1[{(time.time()-start_t):.4f}]")
                     speech_array = np.frombuffer(frame_bytes, dtype=np.int16)
+                    print(f"Time2[{(time.time()-start_t):.4f}]")
                     if self.vad.is_speech(speech_array):
                         #whisperで認識
                         segments = self.model_wrapper.transcribe(speech_array)
+                        print(f"Time3[{(time.time()-start_t):.4f}]")
                         for segment in segments:
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
+                            print(f"Time4[{(time.time()-start_t):.4f}]")
                             if self.check_ng_words(normalized_text):
                                continue
-                            if self.ini_file.debug_out_text:
-                                print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
-
+                            print(f"Time5[{(time.time()-start_t):.4f}]")
+                        if self.ini_file.debug_out_text:
+                            print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
                             # send text to websocket 
                             self.wsocket.send(normalized_text)
 
