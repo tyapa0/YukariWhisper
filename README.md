@@ -76,9 +76,12 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   ダイナミックマイクを使っている方は dynamic_energy_ratio=2.0など、少し少な目がちょうどいい値になります。  
 
 # Planned Features
-* デバイスリストの文字化けを修正する
+* デバイスリストの文字化けを修正する(python-sounddeviceへ変更)  
 * 区切り検出をspeech_recognitionからSilero VADへ完全移行する  
   参考：https://github.com/jianfch/stable-ts
+* pyqtgraphで音声のリアルタイムプロットを表示する  
+  音声認識中かそうで無いかをインジケータ表示で分かりやすくする  
+  定常ノイズを可視化しユーザーに認識させる  
 * distil-whisperの日本語モデルの作成(個人では現実的ではない計算量)  
   参考：https://github.com/huggingface/distil-whisper/tree/main/training
 
