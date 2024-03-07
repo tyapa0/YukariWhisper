@@ -120,7 +120,7 @@ class myrecognizer:
                         for segment in segments:
                             # 時間が指定秒以上かかる場合は結果を破棄して次の音声認識結果に移行する
                             if round((time.time()-start_t), 1) >= self.recognizers.recognition_timeout:
-                                print("Recognition was timeout.")
+                                print("音声認識がタイムアウトしました。")
                                 continue
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
