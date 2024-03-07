@@ -20,7 +20,7 @@ class inifile_settings:
     pause_threshold = 0.8
     energy_threshold = 300
     energy_threshold_Low = 100
-    recognition_timeout = 5.0
+    recognition_timeout = 10.0
     dynamic_energy_threshold = True
     dynamic_energy_adjustment_damping = 0.15
     dynamic_energy_ratio = 1.5

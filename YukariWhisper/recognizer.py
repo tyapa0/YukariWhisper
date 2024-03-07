@@ -118,12 +118,13 @@ class myrecognizer:
                         #whisperで認識
                         segments = self.model_wrapper.transcribe(speech_array)
                         for segment in segments:
+                            # 時間が指定秒以上かかる場合は結果を破棄して次の音声認識結果に移行する
+                            if round((time.time()-start_t), 1) >= self.recognizers.recognition_timeout:
+                                print("Recognition was timeout.")
+                                continue
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
                             if self.check_ng_words(normalized_text):
-                                continue
-                            # If the time takes longer than the specified seconds, discard the result. Check the time after NG words.
-                            if round((time.time()-start_t), 1) >= self.recognizers.recognition_timeout:
                                 continue
                             if self.ini_file.debug_out_text:
                                 print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
