@@ -46,6 +46,7 @@ class myrecognizer:
         self.recognizers.phrase_threshold  = self.ini_file.phrase_threshold
         self.recognizers.non_speaking_duration  = self.ini_file.non_speaking_duration
         self.recognizers.energy_threshold_Low  = self.ini_file.energy_threshold_Low
+        self.recognizers.recognition_timeout = self.ini_file.recognition_timeout
 
         # websocket通信の設定
         self.wsocket = wsocket.wsocket('ws://localhost:', self.ini_file.local_port, self.ini_file.yukari_connect_neo)
@@ -117,10 +118,14 @@ class myrecognizer:
                         #whisperで認識
                         segments = self.model_wrapper.transcribe(speech_array)
                         for segment in segments:
+                            # 時間が指定秒以上かかる場合は結果を破棄して次の音声認識結果に移行する
+                            if round((time.time()-start_t), 1) >= self.recognizers.recognition_timeout:
+                                print("音声認識がタイムアウトしました。")
+                                continue
                             # uniocode Normalization
                             normalized_text = unicodedata.normalize('NFC', segment.text)
                             if self.check_ng_words(normalized_text):
-                               continue
+                                continue
                             if self.ini_file.debug_out_text:
                                 print(f"whisper[{(time.time()-start_t):.4f}]({len(segment.text)})" + normalized_text)
 
