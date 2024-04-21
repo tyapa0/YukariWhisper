@@ -82,8 +82,8 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * pyqtgraphで音声のリアルタイムプロットを表示する  
   音声認識中かそうで無いかをインジケータ表示で分かりやすくする  
   定常ノイズを可視化しユーザーに認識させる  
-* distil-whisperの日本語モデルの作成(個人では現実的ではない計算量)  
-  参考：https://github.com/huggingface/distil-whisper/tree/main/training
+* Kotoba-Whisperの評価 (distil-whisper)
+  参考：[https://github.com/huggingface/distil-whisper/tree/main/training](https://huggingface.co/kotoba-tech/kotoba-whisper-v1.0)
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
