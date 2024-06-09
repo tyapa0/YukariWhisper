@@ -11,21 +11,21 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 
 # Installation
 * 実行にはpythonのインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows  
-  python3.9以上で動作します。推奨は [`3.11.7です`](https://www.python.org/downloads/release/python-3117/)  
-  `python3.12では動きません！！`(20023/12/28現在)  
+  python3.9以上で動作します。推奨は [`3.11.8です`](https://www.python.org/downloads/release/python-3118/)  
+  `python3.12では動きません！！`(20024/03/09現在)  
   pythonのパスを追加にチェックを入れてインストールしてください。  
   ![YukariWhisper05.png.](./image/YukariWhisper05.png "YukariWhisper05")
 
 ### v0.0.1以降バージョンアップの方
   * [変更点はこちら](https://github.com/tyapa0/YukariWhisper/releases)
-  * Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.4.zip
+  * Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.5.zip
   * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
   *  `ngwords.txt`以外のファイルを既にインストール済みのフォルダへ上書きしてください
   * `yukariwhisper.ini`は追加項目があるので、上書きした後で数値を設定し直してください。
   * `run.bat`を実行します。
 
 ### 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.4.zip
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.0.5.zip
   * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
@@ -43,6 +43,14 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 # Settings
 * `yukariwhisper.ini`を書き換えてください。  
 
+* **kotoba-whisper**を利用する  
+  `yukariwhisper.ini`のwhisper_model_size = `large-v3`部分を  
+  whisper_model_size = `kotoba-tech/kotoba-whisper-v1.0-faster` に置き換えると  
+  **kotoba-whisper**のモデルが使えるようになります。  
+  1. 少し癖が変わります  
+  1. ちょっとだけGPUメモリを節約できます  
+  1. ちょっとだけ反応速度が速くなります
+
 * **text_type = 0**  
 送信する文字形式を指定します。  
 ゆかりねっとを使う場合=0  
@@ -59,7 +67,6 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   従来の半分程度の音量でも認識するので、入力を半分に以下にするなど試してみてください。  
   iniファイルはQuest2でのVirtualDesktop基準で設定されています。マイクの推奨値は40%です。  
 ![YukariWhisper04.png.](./image/YukariWhisper04.png "YukariWhisper04")  
-
 
 # Q&A
 * 動かない！  
@@ -82,8 +89,8 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * pyqtgraphで音声のリアルタイムプロットを表示する  
   音声認識中かそうで無いかをインジケータ表示で分かりやすくする  
   定常ノイズを可視化しユーザーに認識させる  
-* distil-whisperの日本語モデルの作成(個人では現実的ではない計算量)  
-  参考：https://github.com/huggingface/distil-whisper/tree/main/training
+* ~~Kotoba-Whisperの評価 (distil-whisper)  
+  参考：[https://github.com/huggingface/distil-whisper/tree/main/training](https://huggingface.co/kotoba-tech/kotoba-whisper-v1.0)~~　　
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
