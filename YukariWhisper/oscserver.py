@@ -2,7 +2,6 @@ from threading import Thread
 import argparse
 #import math
 
-import pyaudio
 from pythonosc.dispatcher import Dispatcher
 from pythonosc import osc_server
 

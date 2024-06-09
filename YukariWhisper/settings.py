@@ -14,19 +14,16 @@ class inifile_settings:
     whisper_device = "cuda"
     compute_type = "int8_float16"
     using_recognizer = "whispr"
+    beam_size = 5
     debug_out_text = False
     gpu_device_index = 0
+    plot_data = True
+    pause_threshold = 5
+    phrase_threshold = 5
+    vad_threshold = 0.3
+    vad_enable2 = True
+    vad_threshold2 = 0.5
 
-    pause_threshold = 0.8
-    energy_threshold = 300
-    energy_threshold_Low = 100
-    recognition_timeout = 10.0
-    dynamic_energy_threshold = True
-    dynamic_energy_adjustment_damping = 0.15
-    dynamic_energy_ratio = 1.5
-    phrase_threshold = 0.3
-    non_speaking_duration = 0.5
-    vad_threshold = 0.1
     vrc_osc_micmute = False
     vrc_osc_adsress = "127.0.0.1"
     vrc_osc_port = 9001
@@ -77,6 +74,8 @@ class inifile_settings:
 
         self.whisper_model_size = ini_common.get('whisper_model_size')
 
+        self.beam_size = ini_common.getint('beam_size')
+
         if ini_common.get('debug_out_text') != 'n':
             self.debug_out_text = True
 
@@ -89,19 +88,18 @@ class inifile_settings:
         self.vrc_osc_port = ini_common.getint('vrc_osc_port')
         self.gpu_device_index = ini_common.getint('gpu_device_index')
         self.set_whisper_device()
+        if ini_common.get('plot_data') != 'y':
+            self.plot_data = False
 
     #RECOGNIZERセクションの解析
     def parse_recognizer(self):
         ini_recognizer = self.inifile['RECOGNIZER']
-        self.pause_threshold = ini_recognizer.getfloat('pause_threshold')
-        self.energy_threshold = ini_recognizer.getint('energy_threshold')
-        if ini_recognizer.get('dynamic_energy_threshold') != 'y':
-            self.dynamic_energy_threshold = False
-        self.dynamic_energy_adjustment_damping = ini_recognizer.getfloat('dynamic_energy_adjustment_damping')
-        self.dynamic_energy_ratio = ini_recognizer.getfloat('dynamic_energy_ratio')
-        self.phrase_threshold = ini_recognizer.getfloat('phrase_threshold')
-        self.non_speaking_duration = ini_recognizer.getfloat('non_speaking_duration')
+        self.pause_threshold = ini_recognizer.getint('pause_threshold')
+        self.phrase_threshold = ini_recognizer.getint('phrase_threshold')
         self.vad_threshold = ini_recognizer.getfloat('vad_threshold')
+        self.vad_threshold2 = ini_recognizer.getfloat('vad_threshold2')
+        if ini_recognizer.get('vad_enable2') != 'y':
+            self.vad_enable2 = False
         self.energy_threshold_Low = ini_recognizer.getfloat('energy_threshold_Low')
         self.recognition_timeout = ini_recognizer.getfloat('recognition_timeout')
 

@@ -1,8 +1,10 @@
-PyAudio==0.2.14
-SpeechRecognition==3.10.1
-onnxruntime==1.16.3
-onnxruntime-gpu==1.16.3
-websocket-client==1.7.0
-ctranslate2==3.24.0 
-faster-whisper==0.10.1
+matplotlib==3.9.0
+pyqtgraph==0.13.7
+sounddevice==0.4.7
+SpeechRecognition==3.10.4
+onnxruntime==1.18.0
+onnxruntime-gpu==1.18.0
+websocket-client==1.8.0
+ctranslate2==4.2.1
+faster-whisper==1.0.2
 python-osc==1.8.3
