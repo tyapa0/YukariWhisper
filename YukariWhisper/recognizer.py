@@ -39,6 +39,7 @@ class myrecognizer:
 
     def __init__(self):
         # 設定ファイルをロード
+        print("初期化中...")
         self.ini_file      = settings.inifile_settings('../yukariwhisper.ini', 'UTF-8')
         self.recognizers   = sr.Recognizer()
         self.alive = True
@@ -50,11 +51,7 @@ class myrecognizer:
         self.downsample = 10
         self.sample_rate = SAMPLE_RATE
 
-        #マイク入力
-        self.audio_device = AudioDeviceWrapper()
-
         # faster-Whisperのモデルロード
-        print("初期化中...")
         if self.ini_file.using_recognizer != 'google':
             self.model_wrapper =  WhisperModelWrapper(
                                 self.ini_file.whisper_model_size,

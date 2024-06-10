@@ -64,9 +64,9 @@ class inifile_settings:
             self.local_port = sys.argv[1]
 
         if self.yukari_connect_neo:
-            print(f"ゆかコネNEOを起動し、CommunicationPortのWebSocketの値を確認してください:[{self.local_port}]")
+            print(f"ゆかコネNEOを起動し、CommunicationPortのWebSocketの値を確認してください:[{self.local_port}]\n")
         else:
-            print(f"ゆかりねっとを起動し、認識結果待ち受けポートを:[{self.local_port}]にしてください")
+            print(f"ゆかりねっとを起動し、認識結果待ち受けポートを:[{self.local_port}]にしてください\n")
     
         if ini_common.get('automatic_recognition') != 'n':
             self.automatic_recognition = True
