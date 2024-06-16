@@ -22,7 +22,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   * `yukariwhisper.ini`は古いものを使わないでください！！(互換性なし)
   
 ### 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.1.0.zip
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.1.1.zip
   * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
@@ -65,7 +65,8 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
  エラー画面をキャプチャして[issues](https://github.com/tyapa0/YukariWhisper/issues)へ投稿、もしくは[Xへリプライ](https://twitter.com/TYA_PA_)をしていただければ確認します。  
 
 * マイクが認識しない？  
- 音声のリアルタイムプロットの波形が紫になっているか確認してください。画像のような綺麗な入力であれば認識しています。  
+ 音声のリアルタイムプロットの波形が紫になっているか確認してください。  
+ マイクの入力や音量がちょうど良くなるように調節してください。  
  ![YukariWhisper06.png.](./image/YukariWhisper08.png "YukariWhisper06")  
 
 
@@ -76,6 +77,9 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   1. `ngwords.txt`に入れたキーワードを含む言葉は無視されます。5～8文字程度入れてみてください。  
   NVIDIA Broadcastアプリをインストールした後、マイク選択はNVIDIA Broadcastを選択してください。  
   ![YukariWhisper06.png.](./image/YukariWhisper06.png "YukariWhisper06")  
+
+* 起動時にDLしたモデルはどこ？  
+  **C:\\Users\\ユーザー名\\.cache\\huggingface\\hub** に入っています。完全アンインストールする場合はその中でにある models--Systran--faster-whisper-large-v3 や models--kotoba-tech--kotoba-whisper-v1.0-faster などを削除してください。他にもAI系のソフトを使っていると、何かしらファイルがあるので必要なものは残してください。
 
 
 # Planned Features
