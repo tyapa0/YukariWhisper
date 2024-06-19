@@ -153,7 +153,7 @@ class myrecognizer:
                     audio = sr.AudioData(audio_bytes, SAMPLE_RATE, 2)
                     strGoogleData = self.recognizers.recognize_google(audio, language='ja-JP')
                     if self.ini_file.debug_out_text:
-                        print(f"google [{(time.time()-start_t2):.4f}]({len(segment.text)})" + strGoogleData)
+                        print(f"google [{(time.time()-start_t2):.4f}]({len(strGoogleData)})" + strGoogleData)
                     # send text to websocket 
                     self.wsocket.send(strGoogleData)
 
