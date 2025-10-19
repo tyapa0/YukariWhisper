@@ -6,12 +6,12 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 * 1.1GBほどビデオメモリを消費します。
 * googleより少し認識速度が速いです(RTX3080Ti基準)  
 ![YukariWhisper01.png.](./image/YukariWhisper01.png "YukariWhisper01")  
-* nVIDIA系GPU(1000番以降)で動作します。  
+* nVIDIA系GPU(1000番以降)で動作します。 Driverは572.83以降(Cuda12.8)必須
 ![YukariWhisper07.png.](./image/YukariWhisper07.png "YukariWhisper07")  
 
 # Installation
 * 実行にはpythonのインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows  
-  python3.9以上で動作します。推奨は [`3.12.4です`](https://www.python.org/downloads/release/python-3124/)  
+  python3.9以上で動作します。推奨は [`3.13.9です`](https://www.python.org/downloads/release/python-3139/)  
   pythonのパスを追加にチェックを入れてインストールしてください。  
   ![YukariWhisper05.png.](./image/YukariWhisper05.png "YukariWhisper05")
 

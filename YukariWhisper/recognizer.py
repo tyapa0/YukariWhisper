@@ -7,6 +7,7 @@ from audio_utils import AudioDeviceWrapper
 import matplotlib as matp
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider
 
 import speech_recognition as sr
 import numpy as np
@@ -47,6 +48,7 @@ class myrecognizer:
         self.silence_counter = 0
         self.speach_counter = 0
         self.audio_queue   = Queue()
+        self.ampfilter = 1.0
 
         self.downsample = 10
         self.sample_rate = SAMPLE_RATE
@@ -80,7 +82,12 @@ class myrecognizer:
 
     #32msec by 512chunk
     def audio_callback(self, indata, frames, time, status):
+        #amp
+        if self.ampfilter > 1.0:
+            indata = indata * self.ampfilter
+
         is_speech = self.vad.is_speech(indata)
+       
         #Mute
         if self.osc.Mute and self.ini_file.vrc_osc_micmute:
             is_speech = False
@@ -119,6 +126,9 @@ class myrecognizer:
         """
         self.line.set_ydata(self.plotdata)
         return self.line,
+
+    def slider_amp_update(self, slider_val):
+        self.ampfilter = slider_val
 
     def is_automatic_recognition(self):
         return self.ini_file.automatic_recognition
@@ -187,6 +197,8 @@ class myrecognizer:
     #実行関数
     def start(self, index):
 
+
+
         #マイク入力の初期化
         stream = self.audio_device.create_audio_stream(index, self.audio_callback, SAMPLE_RATE*0.1)
     
@@ -199,7 +211,13 @@ class myrecognizer:
         ax.set_xlim([0, length])
         ax.yaxis.grid(True)
         fig.tight_layout()
-    
+   
+        # sliderの作成
+        plt.subplots_adjust(right=0.9)
+        slider_amp_pos = fig.add_axes([0.91, 0.12, 0.05, 0.81])
+        threshold_slider = Slider(slider_amp_pos, 'Amp', 1.0, 5.0, valstep=0.1, valinit=1.0, orientation="vertical")
+        threshold_slider.on_changed(self.slider_amp_update)
+
         # start a new thread to recognize audio, while this thread focuses on listening
         recognize_thread = Thread(target=self.recognize_worker)
         recognize_thread.daemon = True
