@@ -35,7 +35,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
 ### venv等 設定済みの方(分かる人用)  
   * gitで本プロジェクトをcloneしてmain.pyを実行してください。
   * `YukariWhisper`フォルダ内に`requirements.txt`があります。
-  * AMD環境の方はLinux環境上で手動で構築できる人なら動かせますが、[制約が多いです。 ](https://rocm.docs.amd.com/en/docs-5.7.1/release/gpu_os_support.html)  
+  * AMD環境の方はLinux環境上で手動で構築できる人なら動かせるかも？[制約が多いです。 ](https://rocm.docs.amd.com/en/latest/reference/gpu-atomics-operation.html)  
 
 # Settings
 * `yukariwhisper.ini`を書き換えてください。  
@@ -79,7 +79,7 @@ AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うた�
   ![YukariWhisper06.png.](./image/YukariWhisper06.png "YukariWhisper06")  
 
 * 起動時にDLしたモデルはどこ？  
-  **C:\\Users\\ユーザー名\\.cache\\huggingface\\hub** に入っています。完全アンインストールする場合はその中でにある models--Systran--faster-whisper-large-v3 や models--kotoba-tech--kotoba-whisper-v1.0-faster などを削除してください。他にもAI系のソフトを使っていると、何かしらファイルがあるので必要なものは残してください。
+  **C:\\Users\\ユーザー名\\.cache\\huggingface\\hub** に入っています。完全アンインストールする場合はその中にある models--Systran--faster-whisper-large-v3 や models--kotoba-tech--kotoba-whisper-v1.0-faster などを削除してください。他にもAI系のソフトを使っていると、何かしらファイルがあるので必要なものは残してください。
 
 
 # Planned Features
