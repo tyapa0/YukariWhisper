@@ -1,6 +1,9 @@
 # ゆかりねっと用のFaster-Whisper音声認識エンジン
 AI認識のFaster-Whisperをゆかりねっとや、ゆかコネNEOで使うための音声認識エンジンです。
 
+## ※CPU認識でより良い物が出てきましたので[こちら(Parapper)](https://github.com/Parakeet-Inc/Parapper-ASR)の使用をお勧めします。
+https://github.com/Parakeet-Inc/Parapper-ASR
+
 # Features
 * google認識に頼らない音声認識が出来ます。
 * 1.1GBほどビデオメモリを消費します。
