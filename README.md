@@ -6,8 +6,9 @@ https://github.com/Parakeet-Inc/Parapper-ASR
 
 # Features
 * google認識に頼らない音声認識が出来ます。
-* 1.1GBほどビデオメモリを消費します。
-* googleより少し認識速度が速いです(RTX3080Ti基準)  
+* 1.1GBほどビデオメモリを消費します。(kotoba-whisper使用時)
+* googleより少し認識速度が速いです(RTX3080Ti基準)
+* 日本語特化モデル **Haas-ja-v1.0** も選択できます(ONNX版・CPU推論・自動ダウンロード)。詳しくは下記「Haas-ja-v1.0 を使う」を参照してください。  
 ![YukariWhisper01.png.](./image/YukariWhisper01.png "YukariWhisper01")  
 * nVIDIA系GPU(1000番以降)で動作します。 Driverは572.83以降(Cuda12.8)必須
 ![YukariWhisper07.png.](./image/YukariWhisper07.png "YukariWhisper07")  
@@ -39,6 +40,19 @@ https://github.com/Parakeet-Inc/Parapper-ASR
   * gitで本プロジェクトをcloneしてmain.pyを実行してください。
   * `YukariWhisper`フォルダ内に`requirements.txt`があります。
   * AMD環境の方はLinux環境上で手動で構築できる人なら動かせるかも？[制約が多いです。 ](https://rocm.docs.amd.com/en/latest/reference/gpu-atomics-operation.html)  
+
+# Haas-ja-v1.0 を使う
+* `yukariwhisper.ini` の `whisper_model_size` に次のように書くだけで切り替わります。Whisper同様初回起動時に自動でダウンロードされます。
+```ini
+whisper_model_size = kizuna-intelligence/Haas-ja-v1.0-OneCompression-ONNX
+haas_format = int8
+haas_threads = 4
+```
+* **なぜONNX版？**  
+  Haas-ja-v1.0 は Whisper ではなく Parakeet-TDT(NeMo)系のモデルで、CTranslate2 では読み込めず。また元のNeMo版は「Linux + NVIDIA GPU + NeMo 2.7 + Triton(flash-linear-attention)」専用で、Windows / CPU は非対応。Windows でそのまま動く ONNX 変換版 [kizuna-intelligence/Haas-ja-v1.0-OneCompression-ONNX](https://huggingface.co/kizuna-intelligence/Haas-ja-v1.0-OneCompression-ONNX) を採用。推論コードは `YukariWhisper/haas_cpu/` 。
+* **推論はCPUです。** GPUは使いません、モデルカード実測(Core i7-12700F・4スレッド・30秒音声)では int8 で音声の41.6倍速、int4-onecomp で30.2倍速と、数秒の発話なら十分にリアルタイム。VRAM消費ナシ。
+* **形式は `haas_format` で選択可。** `int8`(最速・DL約664MB) / `int4-onecomp`(最小・精度良好・DL約380MB) / `fp32`(無圧縮・DL約2.47GB)。選択した形式のファイルだけをダウンロードします。
+* Haas選択時は `beam_size` や `compute_type`、などのGPU設定は使いません。マイク側のVAD(Silero)や無音区切りなどの動作は Whisper の時と同じです。
 
 # Settings
 * `yukariwhisper.ini`を書き換えてください。  
@@ -95,6 +109,14 @@ https://github.com/Parakeet-Inc/Parapper-ASR
 * ~~Kotoba-Whisperの評価 (distil-whisper)  
   参考：[https://github.com/huggingface/distil-whisper/tree/main/training](https://huggingface.co/kotoba-tech/kotoba-whisper-v1.0)~~　　
 
+# コード構成 (開発者向け)
+* `recognizer.py` … 認識本体。モデルの違いはここでは意識しません。
+* `plotlib.py` … 波形ウインドウ(matplotlib)。今回 `recognizer.py` から分離しました。波形バッファ・発話色・Ampスライダー・FuncAnimation はすべてこちらです。
+* `whisper_utils.py` … faster-whisper(CTranslate2)バックエンド。
+* `haas_utils.py` … Haas-ja-v1.0(ONNX)バックエンド。自動ダウンロードと、Whisper側と共通の `transcribe() -> [.text]` 形式への変換を行います。
+* `google_utils.py` … Google音声認識(デバッグ用)。音声はFLAC化せず16bit PCM(`audio/l16`)で送ります。
+* 認識結果の後処理(タイムアウト判定・NFC正規化・NGワード・送信)は全エンジン共通。
+* `settings.py` … ini解析。`haas_format` / `haas_threads` / `haas_repo` は任意項目で、古いiniに無くてもデフォルト値で動きます。Haas / google 選択時はGPU判定(compute_type算出)を行わないため、CUDAが無い環境でもHaasは起動できます。
+
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
-

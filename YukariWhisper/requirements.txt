@@ -1,10 +1,11 @@
 matplotlib==3.10.7
 pyqtgraph==0.14.0
 sounddevice==0.5.3
-SpeechRecognition==3.14.4
 onnxruntime==1.23.2
 onnxruntime-gpu==1.23.2
 websocket-client==1.9.0
 ctranslate2==4.6.1
 faster-whisper==1.2.1
 python-osc==1.9.3
+huggingface-hub==0.34.4
+numpy==2.2.6

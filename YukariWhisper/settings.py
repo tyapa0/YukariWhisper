@@ -3,6 +3,14 @@ import unicodedata
 import sys
 import torch
 
+from haas_utils import (
+    HAAS_ONNX_REPO_ID,
+    DEFAULT_HAAS_FORMAT,
+    DEFAULT_HAAS_THREADS,
+    is_haas_model_name,
+    normalize_haas_format,
+)
+
 class inifile_settings:
 
     inifile: configparser.ConfigParser
@@ -13,6 +21,10 @@ class inifile_settings:
     whisper_model_size = "large-v3"
     whisper_device = "cuda"
     compute_type = "int8_float16"
+    # Haas-ja-v1.0 (ONNX) 用。whisper_model_size が Haas の名前の時だけ使う。
+    haas_format = DEFAULT_HAAS_FORMAT
+    haas_threads = DEFAULT_HAAS_THREADS
+    haas_repo = HAAS_ONNX_REPO_ID
     using_recognizer = "whispr"
     beam_size = 5
     debug_out_text = False
@@ -41,7 +53,12 @@ class inifile_settings:
 
     #whisper compute_typeの設定
     #Compute_Capability from :https://opennmt.net/CTranslate2/quantization.html#implicit-type-conversion-on-load
+    #Haas(ONNX)はCPU推論でGPUを使わないため、google選択時と同様に呼ばない。
+    #そのためCUDAが無い環境でもHaasだけは起動できるよう、ここでも確認する。
     def set_whisper_device(self):
+        if not torch.cuda.is_available():
+            print("CUDAが使えないため compute_type はデフォルトのままにします")
+            return
         Compute_Capability_1 = int(torch.cuda.get_device_capability(self.gpu_device_index)[0])
         Compute_Capability_2 = int(torch.cuda.get_device_capability(self.gpu_device_index)[1])
         if(8 <= Compute_Capability_1):
@@ -74,6 +91,14 @@ class inifile_settings:
 
         self.whisper_model_size = ini_common.get('whisper_model_size')
 
+        # Haas-ja-v1.0 (ONNX) 用の任意項目。古いiniに無くてもデフォルトで動く。
+        self.haas_format = normalize_haas_format(
+            ini_common.get('haas_format', fallback=DEFAULT_HAAS_FORMAT))
+        self.haas_threads = ini_common.getint('haas_threads', fallback=DEFAULT_HAAS_THREADS)
+        self.haas_repo = ini_common.get('haas_repo', fallback=HAAS_ONNX_REPO_ID) or HAAS_ONNX_REPO_ID
+        if is_haas_model_name(self.whisper_model_size):
+            print(f"認識モデル: Haas-ja-v1.0 (ONNX/{self.haas_format}, CPU)")
+
         self.beam_size = ini_common.getint('beam_size')
 
         if ini_common.get('debug_out_text') != 'n':
@@ -87,7 +112,9 @@ class inifile_settings:
         self.vrc_osc_adsress = ini_common.get('vrc_osc_adsress')
         self.vrc_osc_port = ini_common.getint('vrc_osc_port')
         self.gpu_device_index = ini_common.getint('gpu_device_index')
-        self.set_whisper_device()
+        # compute_type は faster-whisper 専用。google / Haas ではGPU判定をしない。
+        if self.using_recognizer != 'google' and not is_haas_model_name(self.whisper_model_size):
+            self.set_whisper_device()
         if ini_common.get('plot_data') != 'y':
             self.plot_data = False
 
