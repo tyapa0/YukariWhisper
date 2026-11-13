@@ -6,7 +6,6 @@ from whisper_utils import WhisperModelWrapper
 from haas_utils import HaasModelWrapper, is_haas_model_name
 from google_utils import GoogleSpeechRecognizer, GoogleUnknownValueError, GoogleRequestError
 from audio_utils import AudioDeviceWrapper
-from plotlib import WaveformPlot
 
 import numpy as np
 import time
@@ -18,6 +17,9 @@ import unicodedata
 
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+import onnxruntime
+if hasattr(onnxruntime, "disable_telemetry_events"):
+    onnxruntime.disable_telemetry_events()
 SAMPLE_RATE = 16000
 
 #音声認識エンジン本体
@@ -37,7 +39,7 @@ class myrecognizer:
     speach_counter :int
     audio_device: AudioDeviceWrapper
     recognition_timeout :int
-    plot: WaveformPlot
+    plot: "WaveformPlot"
 
     def __init__(self):
         # 設定ファイルをロード
@@ -50,7 +52,9 @@ class myrecognizer:
         self.audio_queue   = Queue()
         self.ampfilter = 1.0
 
-        self.downsample = 10
+        # 波形表示用ダウンサンプル (表示専用)
+        # 20 = 1px あたり約 1 点
+        self.downsample = 20
         self.sample_rate = SAMPLE_RATE
         self.plot = None
 
@@ -175,30 +179,36 @@ class myrecognizer:
     #音声認識実行スレッド
     def recognize_worker(self):
         # this runs in a background thread
-        while self.alive:
+        while True:
             audio_data = self.audio_queue.get()  # retrieve the next audio processing job from the main thread
-            if audio_data is None: break  # stop processing if the main thread is done
-
             try:
-                start_t = time.time()
-                for text in self._transcribe_to_texts(audio_data):
-                    self._dispatch_text(text, start_t)
+                # stop processing if the main thread is done
+                # (終了時はキューに残った音声を処理せず、そのまま捨てる)
+                if audio_data is None or not self.alive:
+                    break
 
-            except GoogleUnknownValueError:
-                # googleで聞き取れなかった場合 (旧 speech_recognition.UnknownValueError)
-                pass
-            except GoogleRequestError:
-                # googleへ接続できなかった場合 (旧 speech_recognition.RequestError)
-                pass
-            except KeyboardInterrupt:  # allow Ctrl + C to shut down the program
-                break
+                try:
+                    start_t = time.time()
+                    for text in self._transcribe_to_texts(audio_data):
+                        self._dispatch_text(text, start_t)
+
+                except GoogleUnknownValueError:
+                    # googleで聞き取れなかった場合 (旧 speech_recognition.UnknownValueError)
+                    pass
+                except GoogleRequestError:
+                    # googleへ接続できなかった場合 (旧 speech_recognition.RequestError)
+                    pass
+            finally:
+                self.audio_queue.task_done()
 
     #実行関数
     def start(self, index):
 
-        #波形ウインドウの用意 (描画まわりは plotlib に分離)
-        #コールバックが来る前に用意しておくため、マイク入力より先に作る
-        self.plot = WaveformPlot(self.sample_rate, self.downsample, self.slider_amp_update)
+        #波形ウインドウの用意 (描画まわりは plotlib)
+        #コールバックが来る前に用意しておくため、マイク入力より先
+        if self.ini_file.plot_data:
+            from plotlib import WaveformPlot
+            self.plot = WaveformPlot(self.sample_rate, self.downsample, self.slider_amp_update)
 
         #マイク入力の初期化
         stream = self.audio_device.create_audio_stream(index, self.audio_callback, SAMPLE_RATE*0.1)
@@ -218,21 +228,19 @@ class myrecognizer:
             self.osc.start(self.ini_file.vrc_osc_adsress, self.ini_file.vrc_osc_port)
             phrase_time_limit = 1
 
-        # 音声認識スレッドは上で開始済み。ここからはウインドウ表示がメイン。
+        # ウインドウ表示
         #print("debug:recognize_start")
-        self.plot.start_animation()
+        if self.plot is not None:
+            self.plot.start_animation()
         with stream:
-            try:
-                if self.ini_file.plot_data:
+                if self.plot is not None:
                     self.plot.show()
                 else:
                     recognize_thread.join()
-            except KeyboardInterrupt:  # allow Ctrl + C to shut down the program
-                pass
 
         #print("debug:recognize_end")
 
-        self.audio_queue.join()  # block until all current audio processing jobs are done
-        self.audio_queue.put(None)  # tell the recognize_thread to stop
+        # 終了処理: 認識スレッドを止める。キューに残った音声は処理せず破棄する
         self.alive = False # thread end
+        self.audio_queue.put(None)  # tell the recognize_thread to stop
         recognize_thread.join()  # wait for the recognize_thread to actually stop

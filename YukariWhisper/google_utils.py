@@ -1,38 +1,4 @@
 #!/usr/bin/env python3
-"""Google speech recognition without the SpeechRecognition library.
-
-YukariWhisper used the ``SpeechRecognition`` package for exactly one call,
-``recognize_google()``, in its debug/comparison mode.  Buffering, VAD and
-threading have long since moved to Silero VAD and our own worker thread, so
-that dependency is gone now: this module talks to the same endpoint
-directly, using only the standard library and NumPy.
-
-What it does is deliberately the same as ``recognize_google()`` did:
-
-* POSTs the audio to ``https://www.google.com/speech-api/v2/recognize``
-  with the Chromium API key that SpeechRecognition also uses by default
-  (this is Google's free, quota-limited web API, *not* the Cloud
-  Speech-to-Text API - no account or billing is involved, and results and
-  limits are whatever Google serves there),
-* and returns the transcript of the first alternative of the first
-  non-empty result - which is what SpeechRecognition effectively returns
-  too (its "highest confidence" code path never runs, because it checks
-  ``"confidence" in alternatives`` on a list; see the BUG comment in
-  ``speech_recognition/recognizers/google.py``).
-
-Deviations on purpose: the request goes over HTTPS directly
-(SpeechRecognition starts from http:// and relies on the redirect), and
-the request has a timeout (SpeechRecognition's default was none).
-
-One difference: SpeechRecognition encodes the audio as FLAC, this module
-sends raw 16-bit PCM (``audio/l16``).  The endpoint accepts it and, in a
-side-by-side check with the same audio, returned the identical transcript
-and confidence.  PCM is about 32 KB per second of audio, which is still
-small for the few-second phrases YukariWhisper sends, and it needs no
-encoder at all - the float32 -> int16 conversion was already done by the
-old code to build ``sr.AudioData``.
-"""
-
 import json
 import urllib.error
 import urllib.parse

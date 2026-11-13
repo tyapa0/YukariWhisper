@@ -1,24 +1,15 @@
 #!/usr/bin/env python3
-"""Waveform window for YukariWhisper (matplotlib).
-
-This module was split out of recognizer.py: it owns everything that draws -
-the rolling waveform buffer, the line colour that shows whether the VAD
-heard speech, the amplitude slider and the FuncAnimation.
-
-recognizer.py only has to
-    * call ``push(indata)`` for every microphone callback,
-    * call ``set_speech(bool)`` with the VAD result,
-    * call ``start_animation()`` once and ``show()`` to run the window.
-
-Nothing in here knows about speech recognition.
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Slider
 
 
+class _CloseSafeFuncAnimation(FuncAnimation):
+    def _step(self, *args):
+        if not hasattr(self._fig.canvas, "restore_region"):
+            return False
+        return super()._step(*args)
 class WaveformPlot:
     """Real-time microphone waveform with an amplitude slider.
 
@@ -53,6 +44,7 @@ class WaveformPlot:
             self.amp_slider.on_changed(on_amp_changed)
 
         self._animation = None
+        self._is_speech = None  # set_speech の前回値 (色の変更要否の判定用)
 
     # マイク入力1チャンク分を波形バッファへ追加する
     # indata.shape = (n_samples, n_channels)
@@ -63,17 +55,22 @@ class WaveformPlot:
         self.plotdata[-shift:] = data
 
     # 発話中はマゼンタ、無音時はグレーに線の色を変える
+    # 色が変わるときだけ set_color する 
     def set_speech(self, is_speech):
-        self.line.set_color("m" if is_speech else "gray")
+        is_speech = bool(is_speech)
+        if is_speech != self._is_speech:
+            self._is_speech = is_speech
+            self.line.set_color("m" if is_speech else "gray")
 
     def update_plot(self, frame):
         """This is called by matplotlib for each plot update."""
         self.line.set_ydata(self.plotdata)
         return self.line,
 
-    # 描画アニメーションを開始する (show() の前に呼ぶ)
-    def start_animation(self, interval=30):
-        self._animation = FuncAnimation(
+    # 描画アニメーションを開始
+    # interval(更新間隔) は ms単位
+    def start_animation(self, interval=50):
+        self._animation = _CloseSafeFuncAnimation(
             self.fig, self.update_plot,
             interval=interval, blit=True, cache_frame_data=False,
         )

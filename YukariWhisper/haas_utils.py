@@ -1,46 +1,4 @@
 #!/usr/bin/env python3
-"""Haas-ja-v1.0 backend for YukariWhisper.
-
-Why the ONNX build, and not the original ``.nemo`` file?
----------------------------------------------------------
-Haas-ja-v1.0 itself is *not* a Whisper model.  It is a Parakeet-TDT
-(FastConformer + KDA prediction network) model published as a NeMo
-checkpoint (``third-intelligence/Haas-ja-v1.0``, file ``Haas-ja-v1.0.nemo``),
-so it can never be loaded by CTranslate2 / faster-whisper, no matter what
-string is written into ``whisper_model_size``.
-
-The original NeMo build also cannot run on this program's target platform:
-its model card requires Linux + NVIDIA GPU + NeMo 2.7 + Triton /
-flash-linear-attention (the KDA prediction network uses CUDA-only kernels)
-and explicitly does not support CPU or Windows.
-
-This module therefore uses the ONNX conversion
-``kizuna-intelligence/Haas-ja-v1.0-OneCompression-ONNX``, which needs only
-ONNX Runtime + NumPy, runs on Windows, and is fast on CPU
-(model card, Core i7-12700F / 4 threads: int8 = 41.6x realtime,
-int4-onecomp = 30.2x realtime, fp32 = 23.1x realtime).
-The inference code is vendored under ``haas_cpu/`` (Apache-2.0, see
-``haas_cpu/LICENSE`` and ``haas_cpu/NOTICE``); only the model weights are
-downloaded, exactly like the existing CTranslate2 models:
-
-* specify one of the names below in ``whisper_model_size`` and the weights
-  are downloaded automatically into the Hugging Face cache
-  (``%USERPROFILE%\\.cache\\huggingface\\hub``) on first start,
-* only the encoder format selected by ``haas_format`` is downloaded
-  (int8: about 664 MB in total, int4-onecomp: about 380 MB,
-  fp32: about 2.47 GB, figures from the model card, common files included).
-
-Accepted ``whisper_model_size`` values (case-insensitive)::
-
-    Haas-ja-v1.0
-    Haas-ja-v1.0.nemo                      (the name the .nemo file suggests)
-    third-intelligence/Haas-ja-v1.0
-    kizuna-intelligence/Haas-ja-v1.0-OneCompression-ONNX
-
-A local folder that contains a downloaded snapshot (manifest.json,
-common/, <format>/, ...) can also be given as a path, like faster-whisper.
-"""
-
 import os
 from dataclasses import dataclass
 
