@@ -9,8 +9,8 @@ https://github.com/Parakeet-Inc/Parapper-ASR
 * 1.1GBほどビデオメモリを消費します。(kotoba-whisper使用時)
 * googleより少し認識速度が速いです(RTX3080Ti基準)
 * 日本語特化モデル **Haas-ja-v1.0** も選択できます(ONNX版・CPU推論・自動ダウンロード)。詳しくは下記「Haas-ja-v1.0 を使う」を参照してください。  
-![YukariWhisper01.png.](./image/YukariWhisper01.png "YukariWhisper01")  
 * nVIDIA系GPU(1000番以降)で動作します。 Driverは572.83以降(Cuda12.8)必須
+![YukariWhisper01.png.](./image/YukariWhisper01.png "YukariWhisper01")  
 ![YukariWhisper07.png.](./image/YukariWhisper07.png "YukariWhisper07")  
 
 # Installation
