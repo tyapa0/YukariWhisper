@@ -15,7 +15,7 @@ https://github.com/Parakeet-Inc/Parapper-ASR
 
 # Installation
 * 実行にはpythonのインストールが必要です。  https://www.google.com/search?q=PythonインストールWindows  
-  python3.9以上で動作します。推奨は [`3.13.9です`](https://www.python.org/downloads/release/python-3139/)  
+  python3.9以上で動作します。推奨は [`3.15.2です`](https://www.python.org/downloads/release/python-3152/)  
   pythonのパスを追加にチェックを入れてインストールしてください。  
   ![YukariWhisper05.png.](./image/YukariWhisper05.png "YukariWhisper05")
 
@@ -26,7 +26,7 @@ https://github.com/Parakeet-Inc/Parapper-ASR
   * `yukariwhisper.ini`は古いものを使わないでください！！(互換性なし)
   
 ### 初めてのかた
-  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.1.1.zip
+  *  Source code (zip) をDownLoadします。 https://github.com/tyapa0/YukariWhisper/archive/refs/tags/v0.1.4.zip
   * `YukariWhisper-0.x.x.zip`を任意のフォルダへ解凍します。  
      ※解凍ツールによってはセキュリティ許可がされていない場合があります。  
    ファイルを右クリック→プロパティで表示し、セキュリティを許可してください。  
@@ -110,13 +110,13 @@ haas_threads = 4
   参考：[https://github.com/huggingface/distil-whisper/tree/main/training](https://huggingface.co/kotoba-tech/kotoba-whisper-v1.0)~~　　
 
 # コード構成 (開発者向け)
-* `recognizer.py` … 認識本体。モデルの違いはここでは意識しません。
-* `plotlib.py` … 波形ウインドウ(matplotlib)。今回 `recognizer.py` から分離しました。波形バッファ・発話色・Ampスライダー・FuncAnimation はすべてこちらです。
+* `recognizer.py` … 認識本体。バッファ処理など。
+* `plotlib.py` … 波形ウインドウ(matplotlib)。波形バッファ・発話色・Ampスライダー・FuncAnimation など。
 * `whisper_utils.py` … faster-whisper(CTranslate2)バックエンド。
 * `haas_utils.py` … Haas-ja-v1.0(ONNX)バックエンド。自動ダウンロードと、Whisper側と共通の `transcribe() -> [.text]` 形式への変換を行います。
 * `google_utils.py` … Google音声認識(デバッグ用)。音声はFLAC化せず16bit PCM(`audio/l16`)で送ります。
 * 認識結果の後処理(タイムアウト判定・NFC正規化・NGワード・送信)は全エンジン共通。
-* `settings.py` … ini解析。`haas_format` / `haas_threads` / `haas_repo` は任意項目で、古いiniに無くてもデフォルト値で動きます。Haas / google 選択時はGPU判定(compute_type算出)を行わないため、CUDAが無い環境でもHaasは起動できます。
+* `settings.py` … ini解析。Haas / google 選択時はGPU判定(compute_type算出)を行わないため、CUDAが無い環境でもHaasは起動できます。
 
 # License
 "YukariWhisper" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
