@@ -35,6 +35,8 @@ class inifile_settings:
     vad_threshold = 0.3
     vad_enable2 = True
     vad_threshold2 = 0.5
+    amp_max = 5.0
+    amp_default = 1.0
 
     vrc_osc_micmute = False
     vrc_osc_adsress = "127.0.0.1"
@@ -129,6 +131,20 @@ class inifile_settings:
             self.vad_enable2 = False
         self.energy_threshold_Low = ini_recognizer.getfloat('energy_threshold_Low')
         self.recognition_timeout = ini_recognizer.getfloat('recognition_timeout')
+        self.amp_max = ini_recognizer.getfloat('amp_max', fallback=5.0)
+        self.amp_default = ini_recognizer.getfloat('amp_default', fallback=1.0)
+        # スライダーの範囲 (下限 1.0 ～ amp_max) に収まるよう補正する。
+        # amp_max が 1.0 未満だと増幅できなくなるため下限に寄せ、
+        # amp_default は 1.0 ～ amp_max の範囲へ
+        if self.amp_max < 1.0:
+            print(f"amp_max={self.amp_max} が 1.0 未満のため 1.0 に補正します")
+            self.amp_max = 1.0
+        if self.amp_default < 1.0:
+            print(f"amp_default={self.amp_default} が 1.0 未満のため 1.0 に補正します")
+            self.amp_default = 1.0
+        elif self.amp_default > self.amp_max:
+            print(f"amp_default={self.amp_default} が amp_max={self.amp_max} を超えるため amp_max に補正します")
+            self.amp_default = self.amp_max
 
     #NGWORDSセクションの解析
     def parse_ngwords(self, chr_code):

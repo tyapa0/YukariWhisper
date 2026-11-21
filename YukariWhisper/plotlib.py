@@ -13,13 +13,20 @@ class _CloseSafeFuncAnimation(FuncAnimation):
 class WaveformPlot:
     """Real-time microphone waveform with an amplitude slider.
 
-    ``on_amp_changed`` is called with the slider value (1.0 - 5.0) whenever
+    ``on_amp_changed`` is called with the slider value (1.0 - amp_max) whenever
     the user moves the Amp slider; the caller decides what to do with it.
+    ``amp_max`` / ``amp_default`` come from yukariwhisper.ini ([RECOGNIZER]
+    amp_max / amp_default); the slider starts at ``amp_default``.
     """
 
-    def __init__(self, sample_rate=16000, downsample=10, on_amp_changed=None):
+    def __init__(self, sample_rate=16000, downsample=10, on_amp_changed=None,
+                 amp_max=5.0, amp_default=1.0):
         self.sample_rate = sample_rate
         self.downsample = downsample
+        # settings 側でも補正済みだが、直接生成された場合でも
+        # Slider の範囲 (下限 1.0 ～ amp_max) と初期値が矛盾しないようここでも丸める。
+        self.amp_max = max(1.0, float(amp_max))
+        self.amp_default = min(max(1.0, float(amp_default)), self.amp_max)
 
         # 表示する波形データ (1秒分をダウンサンプルして保持する)
         length = int(1000 * self.sample_rate / (1000 * self.downsample))
@@ -37,8 +44,8 @@ class WaveformPlot:
         plt.subplots_adjust(right=0.9)
         slider_amp_pos = self.fig.add_axes([0.91, 0.12, 0.05, 0.81])
         self.amp_slider = Slider(
-            slider_amp_pos, 'Amp', 1.0, 5.0,
-            valstep=0.1, valinit=1.0, orientation="vertical",
+            slider_amp_pos, 'Amp', 1.0, self.amp_max,
+            valstep=0.1, valinit=self.amp_default, orientation="vertical",
         )
         if on_amp_changed is not None:
             self.amp_slider.on_changed(on_amp_changed)

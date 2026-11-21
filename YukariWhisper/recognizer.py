@@ -50,7 +50,7 @@ class myrecognizer:
         self.silence_counter = 0
         self.speach_counter = 0
         self.audio_queue   = Queue()
-        self.ampfilter = 1.0
+        self.ampfilter = self.ini_file.amp_default
 
         # 波形表示用ダウンサンプル (表示専用)
         # 20 = 1px あたり約 1 点
@@ -138,7 +138,8 @@ class myrecognizer:
             self.plot.push(indata)
 
     def slider_amp_update(self, slider_val):
-        self.ampfilter = slider_val
+        # ini の範囲 (1.0 ～ amp_max) で丸める。
+        self.ampfilter = min(max(float(slider_val), 1.0), self.ini_file.amp_max)
 
     def is_automatic_recognition(self):
         return self.ini_file.automatic_recognition
@@ -208,7 +209,9 @@ class myrecognizer:
         #コールバックが来る前に用意しておくため、マイク入力より先
         if self.ini_file.plot_data:
             from plotlib import WaveformPlot
-            self.plot = WaveformPlot(self.sample_rate, self.downsample, self.slider_amp_update)
+            self.plot = WaveformPlot(self.sample_rate, self.downsample, self.slider_amp_update,
+                                     amp_max=self.ini_file.amp_max,
+                                     amp_default=self.ini_file.amp_default)
 
         #マイク入力の初期化
         stream = self.audio_device.create_audio_stream(index, self.audio_callback, SAMPLE_RATE*0.1)
